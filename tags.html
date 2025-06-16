@@ -1,1 +1,119 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><title>Tags</title></head><body><h1>Générateur de tags</h1></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🏷️ Générateur de Tags YouTube Gaming</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      color: #00bfff;
+    }
+    .game-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .game-buttons button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .game-buttons button:hover {
+      background-color: #00bfff;
+    }
+    .generate {
+      background-color: #00bfff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+    #tags {
+      margin-top: 2rem;
+      background-color: #222;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      word-wrap: break-word;
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🏷️ Générateur de Tags YouTube Gaming</h1>
+
+  <div class="game-buttons">
+    <button onclick="selectGame('Minecraft')">Minecraft</button>
+    <button onclick="selectGame('Fortnite')">Fortnite</button>
+    <button onclick="selectGame('Roblox')">Roblox</button>
+    <button onclick="selectGame('Valorant')">Valorant</button>
+    <button onclick="selectGame('Among Us')">Among Us</button>
+    <button onclick="selectGame('GTA V')">GTA V</button>
+    <button onclick="selectGame('Call of Duty')">Call of Duty</button>
+  </div>
+
+  <button class="generate" onclick="generateTags()">🎯 Générer les tags</button>
+
+  <div id="tags">Sélectionne un jeu pour générer les tags.</div>
+
+  <script>
+    let selectedGame = null;
+
+    const baseTags = [
+      "gameplay", "français", "fun", "gaming", "fr", "no rage", 
+      "vidéo drôle", "best of", "multijoueur", "2025", "youtubeur"
+    ];
+
+    const gameTags = {
+      "Minecraft": ["minecraft fr", "survie minecraft", "100 jours", "défis minecraft", "mods minecraft", "build minecraft"],
+      "Fortnite": ["fortnite fr", "battle royale", "victoire royale", "saison 3", "clutch", "skin rare"],
+      "Roblox": ["roblox fr", "jeux roblox", "tycoon", "obby", "blox fruits", "roleplay roblox"],
+      "Valorant": ["valorant fr", "compétitif", "vandal", "ranked valorant", "sage clutch", "valorant moment"],
+      "Among Us": ["among us fr", "sus", "imposteur", "crew mate", "détection imposteur", "troll among us"],
+      "GTA V": ["gta 5 fr", "mods gta", "course gta", "braquage", "rp gta", "gta online"],
+      "Call of Duty": ["call of duty fr", "warzone", "zombies", "sniper montage", "nuke", "multijoueur cod"]
+    };
+
+    function selectGame(game) {
+      selectedGame = game;
+      document.getElementById("tags").textContent = `🎮 Jeu sélectionné : ${game}`;
+    }
+
+    function generateTags() {
+      if (!selectedGame) {
+        alert("Sélectionne un jeu d'abord !");
+        return;
+      }
+
+      const selectedTags = [
+        ...baseTags,
+        ...(gameTags[selectedGame] || [])
+      ];
+
+      const shuffled = selectedTags.sort(() => 0.5 - Math.random()).slice(0, 15);
+      const tagsText = shuffled.map(tag => `#${tag.replace(/\s/g, '')}`).join(' ');
+
+      document.getElementById("tags").textContent = `🎯 Tags générés :\n${tagsText}`;
+    }
+  </script>
+
+</body>
+</html>
