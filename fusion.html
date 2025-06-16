@@ -119,6 +119,7 @@
     resultDiv.innerHTML = '';
     draggedWords = [];
 
+    // Shuffle and pick 16 random words
     const shuffled = [...wordList].sort(() => 0.5 - Math.random()).slice(0, 16);
 
     shuffled.forEach(word => {
@@ -202,95 +203,97 @@
       `Défi sans ${w2} dans ${w1}`,
       `Coop ${w1} et ${w2}`,
       `Le lore secret de ${w2} dans ${w1}`,
-      `${w1} + ${w2} = Explosion !`,
-      `Jouer ${w1} uniquement avec ${w2}`,
-      `Les pires fails ${w2} dans ${w1}`,
-      `Compilation ${w1} x ${w2}`,
-      `Tester ${w2} sur ${w1} en mode fou`,
-      `La stratégie ultime ${w1} et ${w2}`,
-      `Top 5 astuces ${w2} pour ${w1}`,
-      `Guide complet ${w2} dans ${w1}`,
-      `Comment dominer avec ${w2} sur ${w1}`,
-      `${w1} en mode speedrun ${w2}`,
-      `${w2} vs ${w1} : qui gagne ?`,
-      `${w1} et ${w2} : le défi hardcore`,
-      `Survivre 24h avec ${w2} dans ${w1}`,
-      `Mode secret ${w2} dans ${w1}`,
-      `Découverte du mode ${w2} sur ${w1}`,
-      `${w1} sans ${w2} : possible ?`,
-      `Le plus grand troll ${w1} x ${w2}`,
-      `Un combat épique entre ${w1} et ${w2}`,
-      `Créer un mod ${w2} pour ${w1}`,
-      `Les nouveautés ${w2} dans ${w1}`,
-      `Jouer à ${w1} avec ${w2} à l'aveugle`,
-      `Top 3 fail ${w2} dans ${w1}`,
-      `Tutoriel ${w2} pour ${w1}`,
-      `Top 10 secrets ${w1} et ${w2}`,
-      `Le speedrun le plus rapide ${w1} x ${w2}`,
+      `${w1} + ${w2} : les meilleurs moments`,
+      `Un monde parallèle ${w1} et ${w2}`,
+      `Le top des glitches ${w2} dans ${w1}`,
+      `Les pires fails ${w1} avec ${w2}`,
+      `Je joue à ${w1} avec ${w2}`,
+      `Exploration de ${w1} et ${w2}`,
+      `Une aventure ${w1} mêlée à ${w2}`,
+      `Guide ultime pour ${w2} sur ${w1}`,
+      `La stratégie gagnante ${w1} + ${w2}`,
+      `${w1} et ${w2} en multijoueur`,
+      `Test des meilleures cartes ${w2} dans ${w1}`,
+      `Comment maîtriser ${w1} et ${w2} ?`,
+      `Speedrun extrême ${w1} avec ${w2}`,
+      `Défi sans mourir dans ${w1} avec ${w2}`,
+      `${w1} en mode hardcore ${w2}`,
       `Le meilleur combo ${w1} + ${w2}`,
-      `Un monde ${w1} rempli de ${w2}`,
-      `Tester ${w2} sur ${w1} en multijoueur`,
-      `La meilleure map ${w2} pour ${w1}`,
-      `Une journée folle dans ${w1} avec ${w2}`,
-      `Le mode ${w2} expliqué sur ${w1}`,
-      `Construire un empire ${w1} grâce à ${w2}`,
-      `Le secret des pros ${w1} x ${w2}`,
-      `Le défi fou : ${w1} et ${w2} sans mourir`,
-      `Top 7 astuces ${w1} + ${w2}`,
-      `Un combat épique avec ${w2} sur ${w1}`,
-      `Les bugs les plus drôles ${w1} et ${w2}`,
-      `Comment réussir ${w2} dans ${w1}`,
-      `Une aventure unique ${w1} + ${w2}`,
-      `Jouer à ${w1} avec ${w2} pendant 24h`,
-      `Le défi ultime : maîtriser ${w2} sur ${w1}`,
-      `Top 10 moments épiques ${w1} et ${w2}`,
-      `Le secret pour gagner à ${w1} avec ${w2}`,
-      `Jouer à ${w1} sans ${w2} : impossible ?`,
+      `Top 5 des armes ${w2} dans ${w1}`,
+      `Jouer à ${w1} avec les règles ${w2}`,
+      `Les secrets cachés de ${w1} et ${w2}`,
+      `Mes fails les plus drôles avec ${w1} et ${w2}`,
+      `Découvrir ${w1} et ${w2} en coop`,
+      `Le lore complet de ${w1} fusionné à ${w2}`,
+      `${w1} challenge ${w2}`,
+      `${w1} speedrun contre ${w2}`,
+      `La team ultime ${w1} + ${w2}`,
       `Les meilleurs builds ${w2} dans ${w1}`,
-      `Une course folle ${w1} x ${w2}`,
-      `Tester ${w1} avec ${w2} en mode extrême`,
-      `Le défi ${w2} sur ${w1} le plus fou`,
-      `Comment utiliser ${w2} dans ${w1} efficacement`,
-      `Le top 5 des astuces ${w1} + ${w2}`
+      `Défi extrême ${w1} et ${w2}`,
+      `${w1} et ${w2} : le guide complet`,
+      `Mes astuces ${w2} dans ${w1}`,
+      `Tester les nouveautés ${w1} + ${w2}`,
+      `Survivre dans ${w1} avec ${w2}`,
+      `Le top des maps ${w2} pour ${w1}`,
+      `Comment construire un monde ${w2} dans ${w1}`,
+      `PvP intense entre ${w1} et ${w2}`,
+      `Les pires bugs de ${w1} et ${w2}`,
+      `${w1} + ${w2} : le clash ultime`,
+      `Jouer sans HUD à ${w1} avec ${w2}`,
+      `${w1} en mode zombie ${w2}`,
+      `Créer un serveur ${w1} et ${w2}`,
+      `Défi fou : ${w1} x ${w2}`,
+      `${w1} avec les mods ${w2}`,
+      `Les fails les plus drôles ${w1} + ${w2}`,
+      `Le lore secret de ${w1} et ${w2}`,
+      `Top 10 astuces ${w2} dans ${w1}`,
+      `Le meilleur build ${w1} avec ${w2}`
     ];
 
-    // Shuffle and pick 100 unique ideas
     let ideas = [];
-    while(ideas.length < 100){
-      const idea = templates[Math.floor(Math.random() * templates.length)];
-      if(!ideas.includes(idea)) ideas.push(idea);
+    for(let i = 0; i < 100; i++) {
+      ideas.push(templates[i % templates.length]);
     }
 
-    let html = `<h2>💡 100 idées de vidéos avec <em>${w1}</em> et <em>${w2}</em> :</h2><ul>`;
+    displayIdeas(ideas);
+  }
+
+  function displayIdeas(ideas) {
+    let html = '<ul>';
     ideas.forEach(idea => {
       html += `<li>${idea}</li>`;
     });
     html += '</ul>';
-
     resultDiv.innerHTML = html;
   }
 
-  function generateSmartIdea() {
-    const actionVerbs = ["Tester", "Défi", "Construire", "Découvrir", "Survivre à", "Dominer", "Réussir"];
-    const objects = ["le monde de", "les secrets de", "le mode", "le serveur", "les meilleures astuces pour", "le gameplay de"];
-    const games = wordList;
-
-    const verb = actionVerbs[Math.floor(Math.random() * actionVerbs.length)];
-    const object = objects[Math.floor(Math.random() * objects.length)];
-    const game = games[Math.floor(Math.random() * games.length)];
-
-    const idea = `${verb} ${object} ${game} !`;
-
-    resultDiv.innerHTML = `
-      🧠 Idée aléatoire intelligente :<br><strong>${idea}</strong>
-    `;
-  }
-
   function resetFusion() {
-    document.getElementById('wordsContainer').innerHTML = '';
+    generateWords();
     resultDiv.innerHTML = '';
     draggedWords = [];
   }
+
+  // Génération d'une idée intelligente aléatoire
+  function generateSmartIdea() {
+    const smartTemplates = [
+      "Créer un serveur Minecraft hardcore avec un système économique complexe.",
+      "Organiser un tournoi Battle Royale avec des règles personnalisées et un cash prize.",
+      "Faire un speedrun glitchless de Minecraft en moins de 30 minutes.",
+      "Construire une map aventure immersive avec énigmes et boss personnalisés.",
+      "Test de mods révolutionnaires ajoutant de l'intelligence artificielle aux mobs.",
+      "Challenge no death en mode Hardcore dans Fortnite avec des handicaps.",
+      "Créer une map PvP avec un système de classes et compétences uniques.",
+      "Réaliser un tutoriel complet sur la redstone avancée pour automatisation.",
+      "Analyse stratégique des meilleures tactiques en Battle Pass Fortnite.",
+      "Documentaire sur l'histoire et l'évolution des jeux sandbox populaires."
+    ];
+
+    const idea = smartTemplates[Math.floor(Math.random() * smartTemplates.length)];
+    resultDiv.innerHTML = `<p><strong>Idée intelligente :</strong> ${idea}</p>`;
+  }
+
+  // Initialisation à l'ouverture
+  generateWords();
 </script>
 
 </body>
