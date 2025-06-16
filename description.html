@@ -14,8 +14,28 @@
     }
     h1 {
       color: #00bfff;
+      margin-bottom: 1rem;
     }
-    button {
+    .game-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .game-buttons button {
+      background-color: #444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    .game-buttons button:hover {
+      background-color: #00bfff;
+    }
+    button.generate {
       padding: 10px 20px;
       font-size: 1rem;
       background-color: #00bfff;
@@ -23,7 +43,7 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
-      margin: 1rem;
+      margin-top: 1rem;
     }
     #description {
       background-color: #222;
@@ -41,13 +61,23 @@
 <body>
 
   <h1>📝 Générateur de Description YouTube Gaming</h1>
-  <button onclick="generateDescription()">🔁 Générer une description</button>
-  <div id="description">Clique sur le bouton pour obtenir une description !</div>
+
+  <div class="game-buttons">
+    <button onclick="selectGame('Minecraft')">Minecraft</button>
+    <button onclick="selectGame('Fortnite')">Fortnite</button>
+    <button onclick="selectGame('Roblox')">Roblox</button>
+    <button onclick="selectGame('Among Us')">Among Us</button>
+    <button onclick="selectGame('GTA V')">GTA V</button>
+    <button onclick="selectGame('Call of Duty')">Call of Duty</button>
+    <button onclick="selectGame('Valorant')">Valorant</button>
+  </div>
+
+  <button class="generate" onclick="generateDescription()">🔁 Générer la description</button>
+
+  <div id="description">Sélectionne un jeu puis clique sur "Générer la description".</div>
 
   <script>
-    const games = [
-      "Minecraft", "Fortnite", "Roblox", "Among Us", "Valorant", "GTA V", "Call of Duty"
-    ];
+    let selectedGame = null;
 
     const themes = [
       "défi de survie", "aventure incroyable", "combat PvP intense", 
@@ -68,13 +98,22 @@
       "🔥 Mon site : www.monsitegaming.com"
     ];
 
+    function selectGame(game) {
+      selectedGame = game;
+      document.getElementById('description').textContent = `🎮 Jeu sélectionné : ${game}`;
+    }
+
     function generateDescription() {
-      const game = games[Math.floor(Math.random() * games.length)];
+      if (!selectedGame) {
+        alert("Sélectionne un jeu avant de générer une description !");
+        return;
+      }
+
       const theme = themes[Math.floor(Math.random() * themes.length)];
       const invite = invitations[Math.floor(Math.random() * invitations.length)];
       const social = socials[Math.floor(Math.random() * socials.length)];
 
-      const desc = `Aujourd'hui, on se retrouve sur ${game} pour un ${theme} ! 😱
+      const desc = `Aujourd'hui, on se retrouve sur ${selectedGame} pour un ${theme} ! 😱
 Je vais tenter l'impossible dans cet épisode plein de surprises.
 
 ${invite}
@@ -82,7 +121,7 @@ ${invite}
 🔗 Suis-moi :
 ${social}
 
-#Gaming #${game} #Fr`;
+#Gaming #${selectedGame.replace(/\s/g, '')} #Fr`;
 
       document.getElementById("description").textContent = desc;
     }
