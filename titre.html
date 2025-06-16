@@ -2,69 +2,148 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🎮 Générateur de Titres YouTube Gaming</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #111;
-      color: #fff;
+      color: white;
       text-align: center;
       padding: 2rem;
     }
     h1 {
       color: #00bfff;
     }
-    button {
-      padding: 10px 20px;
+    select, button {
+      padding: 10px;
+      margin: 10px;
+      border-radius: 8px;
       font-size: 1rem;
+      border: none;
+    }
+    select {
+      background-color: #333;
+      color: white;
+    }
+    button {
       background-color: #00bfff;
       color: white;
-      border: none;
-      border-radius: 8px;
       cursor: pointer;
-      margin: 1rem;
     }
-    #title {
-      font-size: 1.5rem;
+    #result {
       margin-top: 2rem;
+      background-color: #222;
+      padding: 1rem;
+      border-radius: 10px;
+      font-size: 1.2rem;
       color: #00ff99;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
 <body>
 
-  <h1>🎮 Générateur de Titres Gaming YouTube</h1>
-  <button onclick="generateTitle()">🔁 Générer un titre</button>
-  <div id="title">Clique sur le bouton pour générer un titre !</div>
+  <h1>🎮 Générateur de Titres YouTube Gaming</h1>
+
+  <label for="game">🎮 Choisis un jeu :</label>
+  <select id="game">
+    <option value="">-- Sélectionne --</option>
+    <option value="Minecraft">Minecraft</option>
+    <option value="Fortnite">Fortnite</option>
+    <option value="Roblox">Roblox</option>
+    <option value="GTA V">GTA V</option>
+    <option value="Call of Duty">Call of Duty</option>
+    <option value="Valorant">Valorant</option>
+    <option value="Among Us">Among Us</option>
+  </select>
+
+  <label for="theme">🧠 Choisis un thème :</label>
+  <select id="theme">
+    <option value="">-- Sélectionne --</option>
+    <option value="défi">Défi</option>
+    <option value="troll">Troll</option>
+    <option value="secret">Secrets</option>
+    <option value="hardcore">Hardcore</option>
+    <option value="mods">Mods</option>
+    <option value="survie">Survie</option>
+    <option value="build">Construction</option>
+  </select>
+
+  <br>
+  <button onclick="generateTitle()">💡 Générer un titre</button>
+
+  <div id="result">Sélectionne un jeu et un thème pour générer un titre !</div>
 
   <script>
-    const subjects = [
-      "Minecraft", "Fortnite", "Roblox", "Among Us", "Call of Duty", "Valorant",
-      "Jeu mobile", "Jeu d'horreur", "Mod", "Speedrun", "Survie", "PvP", "Serveur"
-    ];
-
-    const formats = [
-      "J'ai survécu 100 jours dans {game} !",
-      "Peut-on terminer {game} sans mourir ?",
-      "{game} mais en mode Hardcore extrême !",
-      "TOP 10 astuces pour dominer sur {game}",
-      "J'ai testé les pires mods de {game}",
-      "Ce que personne ne vous dit sur {game}...",
-      "Le défi ultime sur {game} (et j'ai presque réussi)",
-      "{game} MAIS tout est inversé !",
-      "Peut-on battre le boss de {game} avec 1 cœur ?",
-      "Compilation des meilleurs moments sur {game}",
-      "Comment devenir un pro sur {game} ?",
-      "{game} + Zombies = CHAOS !",
-      "NOUVEAU mode {game} : c'est du délire !"
-    ];
+    const titleTemplates = {
+      "défi": [
+        "J'ai tenté le plus gros défi sur GAME 😱",
+        "Peut-on survivre à ce DÉFI sur GAME ?",
+        "Le challenge IMPOSSIBLE dans GAME !",
+        "GAME mais chaque minute, ça empire...",
+        "GAME Hardcore Challenge !"
+      ],
+      "troll": [
+        "J'ai trollé mes amis dans GAME 😂",
+        "Le plus gros troll jamais vu sur GAME",
+        "Ils ne s'attendaient PAS à ça dans GAME",
+        "Troll ultime dans GAME !",
+        "Troll 100% réussi dans GAME 🎭"
+      ],
+      "secret": [
+        "Top 10 secrets cachés dans GAME 🔍",
+        "Tu ne verras plus GAME comme avant...",
+        "Les secrets les mieux gardés de GAME !",
+        "GAME a un mode caché... 😨",
+        "Découverte des mystères de GAME"
+      ],
+      "hardcore": [
+        "GAME en Hardcore, c'était une erreur 😵",
+        "100 jours en Hardcore dans GAME",
+        "J'ai tenté GAME sans mourir",
+        "GAME sans HUD, sans armure, sans pitié",
+        "Un monde Hardcore dans GAME 🔥"
+      ],
+      "mods": [
+        "Les meilleurs mods sur GAME 🔧",
+        "GAME mais avec des mods fous !",
+        "TOP 5 des MODS indispensables sur GAME",
+        "Ce mod a tout changé dans GAME",
+        "GAME moddé = nouveau jeu"
+      ],
+      "survie": [
+        "Survie extrême dans GAME",
+        "Peut-on survivre 100 jours dans GAME ?",
+        "GAME mais la survie est impossible",
+        "GAME Survie Hardcore Challenge",
+        "La survie la plus folle dans GAME"
+      ],
+      "build": [
+        "J'ai construit un château géant dans GAME 🏰",
+        "La base la plus stylée de GAME",
+        "TOP 5 builds incroyables sur GAME",
+        "Comment faire un build parfait dans GAME",
+        "Build challenge sur GAME !"
+      ]
+    };
 
     function generateTitle() {
-      const subject = subjects[Math.floor(Math.random() * subjects.length)];
-      const format = formats[Math.floor(Math.random() * formats.length)];
-      const finalTitle = format.replace("{game}", subject);
-      document.getElementById('title').textContent = finalTitle;
+      const game = document.getElementById("game").value;
+      const theme = document.getElementById("theme").value;
+
+      if (!game || !theme) {
+        document.getElementById("result").innerText = "⚠️ Choisis un jeu et un thème !";
+        return;
+      }
+
+      const titles = titleTemplates[theme];
+      const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+      const finalTitle = randomTitle.replace(/GAME/g, game);
+
+      document.getElementById("result").innerText = `💡 Titre généré :\n${finalTitle}`;
     }
   </script>
 
