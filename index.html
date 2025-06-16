@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Fusion d'idées Gaming - 100 idées + Sidebar</title>
+<title>Fusion d'idées Gaming - 100 idées</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -11,13 +11,9 @@
     color: #fff;
     margin: 0;
     padding: 2rem;
-    display: flex;
-    min-height: 100vh;
-  }
-  main {
-    flex: 1;
     max-width: 900px;
-    margin-right: 220px;
+    margin-left: auto;
+    margin-right: auto;
   }
   h1 {
     text-align: center;
@@ -79,60 +75,20 @@
   .result li {
     margin: 0.3rem 0;
   }
-  .chatgpt-copy {
-    margin-top: 1rem;
-    background-color: #2ecc71;
-  }
-  /* Sidebar bleu à droite */
-  aside {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 200px;
-    height: 100vh;
-    background: linear-gradient(180deg, #007acc, #005f99);
-    padding: 1rem;
-    box-sizing: border-box;
-    color: white;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  aside h2 {
-    margin-top: 0;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-    text-align: center;
-  }
-  aside p {
-    font-size: 1rem;
-    line-height: 1.4;
-  }
 </style>
 </head>
 <body>
 
-<main>
-  <h1>Fusionne des idées pour créer ta vidéo gaming !</h1>
-  <div style="text-align:center;">
-    <button onclick="generateWords()">🎮 Générer des mots</button>
-    <button onclick="resetFusion()">🔁 Recharger</button>
-    <button onclick="generateSmartIdea()">🧠 Idée aléatoire intelligente</button>
-  </div>
-  <div class="words-container" id="wordsContainer"></div>
+<h1>Fusionne des idées pour créer ta vidéo gaming !</h1>
+<div style="text-align:center;">
+  <button onclick="generateWords()">🎮 Générer des mots</button>
+  <button onclick="resetFusion()">🔁 Recharger</button>
+  <button onclick="generateSmartIdea()">🧠 Idée aléatoire intelligente</button>
+</div>
+<div class="words-container" id="wordsContainer"></div>
 
-  <div class="dropzone" id="dropzone">💡 Glisse ici 2 mots pour générer une idée de vidéo</div>
-  <div class="result" id="result"></div>
-</main>
-
-<aside>
-  <h2>Menu</h2>
-  <p>🔹 Glisse 2 mots</p>
-  <p>🔹 Clique sur un bouton</p>
-  <p>🔹 Copie prompt ChatGPT</p>
-  <p>🔹 Crée tes idées vidéos</p>
-</aside>
+<div class="dropzone" id="dropzone">💡 Glisse ici 2 mots pour générer une idée de vidéo</div>
+<div class="result" id="result"></div>
 
 <script>
   const wordList = [
@@ -200,8 +156,6 @@
   };
 
   function generateIdeas(w1, w2) {
-    const prompt = `Tu es un expert YouTube gaming. Donne 100 idées de vidéos virales et originales basées sur "${w1}" et "${w2}".`;
-
     const templates = [
       `${w1} mais avec ${w2}`,
       `Peut-on survivre à ${w2} dans ${w1} ?`,
@@ -235,7 +189,6 @@
       `Test en coop de ${w1} et ${w2}`,
     ];
 
-    // Générer jusqu’à 100 idées en répétant / combinant les templates
     let ideas = [];
     for(let i=0; ideas.length < 100; i++) {
       const t = templates[i % templates.length];
@@ -247,19 +200,13 @@
     resultDiv.innerHTML = `
       💡 100 idées générées pour "${w1}" + "${w2}" :
       <ul>${html}</ul>
-      <button class="chatgpt-copy" onclick="copyPromptAndOpenChatGPT(\`${prompt}\`)">
-        📋 Copier le prompt et ouvrir ChatGPT
-      </button>
     `;
   }
 
-  function copyPromptAndOpenChatGPT(prompt) {
-    navigator.clipboard.writeText(prompt).then(() => {
-      window.open("https://chat.openai.com/chat", "_blank");
-    }).catch(() => {
-      alert("Impossible de copier automatiquement. Copiez manuellement :\n\n" + prompt);
-      window.open("https://chat.openai.com/chat", "_blank");
-    });
+  function resetFusion() {
+    resultDiv.innerHTML = "";
+    draggedWords = [];
+    generateWords();
   }
 
   function generateSmartIdea() {
@@ -275,16 +222,7 @@
 
     resultDiv.innerHTML = `
       🧠 Idée aléatoire intelligente :<br><strong>${idea}</strong><br><br>
-      <button class="chatgpt-copy" onclick="copyPromptAndOpenChatGPT('Tu es un expert YouTube gaming. Propose 100 idées de vidéos autour de : ${idea}')">
-        📋 Copier le prompt et ouvrir ChatGPT
-      </button>
     `;
-  }
-
-  function resetFusion() {
-    resultDiv.innerHTML = "";
-    draggedWords = [];
-    generateWords();
   }
 
   // Initialiser les mots au chargement
