@@ -68,16 +68,12 @@
   .result ul {
     padding-left: 0;
     list-style: none;
-    max-height: 350px;
+    max-height: 450px;
     overflow-y: auto;
     width: 100%;
   }
   .result li {
     margin: 0.3rem 0;
-  }
-  .chatgpt-copy {
-    margin-top: 1rem;
-    background-color: #2ecc71;
   }
 </style>
 </head>
@@ -160,8 +156,6 @@
   };
 
   function generateIdeas(w1, w2) {
-    const prompt = `Tu es un expert YouTube gaming. Donne 100 idées de vidéos virales et originales basées sur "${w1}" et "${w2}".`;
-
     const templates = [
       `${w1} mais avec ${w2}`,
       `Peut-on survivre à ${w2} dans ${w1} ?`,
@@ -193,19 +187,86 @@
       `Créer un serveur ${w2} sur ${w1}`,
       `Les défis fous avec ${w1} et ${w2}`,
       `Test en coop de ${w1} et ${w2}`,
+      `${w2} extrême dans ${w1}`,
+      `Peut-on gagner sans ${w2} dans ${w1} ?`,
+      `${w1} en mode ${w2} hardcore`,
+      `Le meilleur build ${w2} pour ${w1}`,
+      `Top astuces ${w2} dans ${w1}`,
+      `Tester ${w2} sur ${w1} en 1 heure`,
+      `Un jour dans ${w1} avec ${w2}`,
+      `Speedrun ${w1} avec ${w2}`,
+      `${w1} sans mourir grâce à ${w2}`,
+      `${w2} surprise dans ${w1}`,
+      `${w1} moddé avec ${w2}`,
+      `Analyse de ${w2} dans ${w1}`,
+      `Défi sans ${w2} dans ${w1}`,
+      `Coop ${w1} et ${w2}`,
+      `Le lore secret de ${w2} dans ${w1}`,
+      `${w1} + ${w2} = Explosion !`,
+      `Jouer ${w1} uniquement avec ${w2}`,
+      `Les pires fails ${w2} dans ${w1}`,
+      `Compilation ${w1} x ${w2}`,
+      `Tester ${w2} sur ${w1} en mode fou`,
+      `La stratégie ultime ${w1} et ${w2}`,
+      `Top 5 astuces ${w2} pour ${w1}`,
+      `Guide complet ${w2} dans ${w1}`,
+      `Comment dominer avec ${w2} sur ${w1}`,
+      `${w1} en mode speedrun ${w2}`,
+      `${w2} vs ${w1} : qui gagne ?`,
+      `${w1} et ${w2} : le défi hardcore`,
+      `Survivre 24h avec ${w2} dans ${w1}`,
+      `Mode secret ${w2} dans ${w1}`,
+      `Découverte du mode ${w2} sur ${w1}`,
+      `${w1} sans ${w2} : possible ?`,
+      `Le plus grand troll ${w1} x ${w2}`,
+      `Un combat épique entre ${w1} et ${w2}`,
+      `Créer un mod ${w2} pour ${w1}`,
+      `Les nouveautés ${w2} dans ${w1}`,
+      `Jouer à ${w1} avec ${w2} à l'aveugle`,
+      `Top 3 fail ${w2} dans ${w1}`,
+      `Tutoriel ${w2} pour ${w1}`,
+      `Top 10 secrets ${w1} et ${w2}`,
+      `Le speedrun le plus rapide ${w1} x ${w2}`,
+      `Le meilleur combo ${w1} + ${w2}`,
+      `Un monde ${w1} rempli de ${w2}`,
+      `Tester ${w2} sur ${w1} en multijoueur`,
+      `La meilleure map ${w2} pour ${w1}`,
+      `Une journée folle dans ${w1} avec ${w2}`,
+      `Le mode ${w2} expliqué sur ${w1}`,
+      `Construire un empire ${w1} grâce à ${w2}`,
+      `Le secret des pros ${w1} x ${w2}`,
+      `Le défi fou : ${w1} et ${w2} sans mourir`,
+      `Top 7 astuces ${w1} + ${w2}`,
+      `Un combat épique avec ${w2} sur ${w1}`,
+      `Les bugs les plus drôles ${w1} et ${w2}`,
+      `Comment réussir ${w2} dans ${w1}`,
+      `Une aventure unique ${w1} + ${w2}`,
+      `Jouer à ${w1} avec ${w2} pendant 24h`,
+      `Le défi ultime : maîtriser ${w2} sur ${w1}`,
+      `Top 10 moments épiques ${w1} et ${w2}`,
+      `Le secret pour gagner à ${w1} avec ${w2}`,
+      `Jouer à ${w1} sans ${w2} : impossible ?`,
+      `Les meilleurs builds ${w2} dans ${w1}`,
+      `Une course folle ${w1} x ${w2}`,
+      `Tester ${w1} avec ${w2} en mode extrême`,
+      `Le défi ${w2} sur ${w1} le plus fou`,
+      `Comment utiliser ${w2} dans ${w1} efficacement`,
+      `Le top 5 des astuces ${w1} + ${w2}`
     ];
 
+    // Shuffle and pick 100 unique ideas
     let ideas = [];
-    for(let i=0; i<30; i++) {
-      const idea = templates[Math.floor(Math.random()*templates.length)];
-      if (!ideas.includes(idea)) ideas.push(idea);
+    while(ideas.length < 100){
+      const idea = templates[Math.floor(Math.random() * templates.length)];
+      if(!ideas.includes(idea)) ideas.push(idea);
     }
 
-    let html = `<h2>💡 30 idées de vidéos avec <em>${w1}</em> et <em>${w2}</em> :</h2><ul>`;
+    let html = `<h2>💡 100 idées de vidéos avec <em>${w1}</em> et <em>${w2}</em> :</h2><ul>`;
     ideas.forEach(idea => {
       html += `<li>${idea}</li>`;
     });
     html += '</ul>';
+
     resultDiv.innerHTML = html;
   }
 
@@ -230,9 +291,6 @@
     resultDiv.innerHTML = '';
     draggedWords = [];
   }
-
-  // Optionnel : générer les mots au chargement de la page
-  // generateWords();
 </script>
 
 </body>
