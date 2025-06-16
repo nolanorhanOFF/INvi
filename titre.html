@@ -1,1 +1,72 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><title>Titres</title></head><body><h1>Générateur de titres</h1></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🎮 Générateur de Titres YouTube Gaming</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      color: #00bfff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 1rem;
+    }
+    #title {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Générateur de Titres Gaming YouTube</h1>
+  <button onclick="generateTitle()">🔁 Générer un titre</button>
+  <div id="title">Clique sur le bouton pour générer un titre !</div>
+
+  <script>
+    const subjects = [
+      "Minecraft", "Fortnite", "Roblox", "Among Us", "Call of Duty", "Valorant",
+      "Jeu mobile", "Jeu d'horreur", "Mod", "Speedrun", "Survie", "PvP", "Serveur"
+    ];
+
+    const formats = [
+      "J'ai survécu 100 jours dans {game} !",
+      "Peut-on terminer {game} sans mourir ?",
+      "{game} mais en mode Hardcore extrême !",
+      "TOP 10 astuces pour dominer sur {game}",
+      "J'ai testé les pires mods de {game}",
+      "Ce que personne ne vous dit sur {game}...",
+      "Le défi ultime sur {game} (et j'ai presque réussi)",
+      "{game} MAIS tout est inversé !",
+      "Peut-on battre le boss de {game} avec 1 cœur ?",
+      "Compilation des meilleurs moments sur {game}",
+      "Comment devenir un pro sur {game} ?",
+      "{game} + Zombies = CHAOS !",
+      "NOUVEAU mode {game} : c'est du délire !"
+    ];
+
+    function generateTitle() {
+      const subject = subjects[Math.floor(Math.random() * subjects.length)];
+      const format = formats[Math.floor(Math.random() * formats.length)];
+      const finalTitle = format.replace("{game}", subject);
+      document.getElementById('title').textContent = finalTitle;
+    }
+  </script>
+
+</body>
+</html>
