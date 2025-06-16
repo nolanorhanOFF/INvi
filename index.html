@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infinite Vidéo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 0.5rem;
+      background-color: #00bfff;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .words-container, .result {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .word {
+      padding: 10px 15px;
+      background-color: #333;
+      border-radius: 6px;
+      cursor: grab;
+      user-select: none;
+    }
+    .dropzone {
+      margin-top: 2rem;
+      padding: 30px;
+      border: 2px dashed #555;
+      border-radius: 10px;
+      color: #888;
+      font-size: 1.1rem;
+    }
+    .dropzone.over {
+      background-color: #222;
+      border-color: #00bfff;
+      color: #00bfff;
+    }
+    .result {
+      font-size: 1rem;
+      margin-top: 2rem;
+      color: #00ff99;
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+    }
+    .chatgpt-link {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #00bfff;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Fusionne des idées pour créer ta vidéo gaming !</h1>
+  <button onclick="generateWords()">🎮 Générer des mots</button>
+  <button onclick="resetFusion()">🔁 Recharger</button>
+  <button onclick="generateSmartIdea()">🧠 Idée aléatoire intelligente</button>
+  <div class="words-container" id="wordsContainer"></div>
+
+  <div class="dropzone" id="dropzone">💡 Glisse ici 2 mots pour générer une idée de vidéo</div>
+  <div class="result" id="result"></div>
+
+  <script>
+    const wordList = [
+      "Minecraft", "Battle Royale", "Speedrun", "Moddé", "Défi", "Survie",
+      "100 jours", "Troll", "PvP", "Skyblock", "Roblox", "Glitch",
+      "Multijoueur", "Hardcore", "Fortnite", "Créatif", "Among Us", "Simulation",
+      "Parkour", "Build", "Pixel Art", "Challenge", "Horreur", "Mini-jeu",
+      "One Block", "Bed Wars", "Redstone", "Escape Room", "Jeu mobile", "IA",
+      "Mode Zombie", "Noob vs Pro", "Sans HUD", "Graphismes Réalistes", "Roleplay", "Coop"
+    ];
+
+    let draggedWords = [];
+    const dropzone = document.getElementById('dropzone');
+    const resultDiv = document.getElementById('result');
+
+    function generateWords() {
+      const container = document.getElementById('wordsContainer');
+      container.innerHTML = '';
+      resultDiv.innerHTML = '';
+      draggedWords = [];
+
+      const shuffled = [...wordList].sort(() => 0.5 - Math.random()).slice(0, 12);
+
+      shuffled.forEach(word => {
+        const span = document.createElement('span');
+        span.className = 'word';
+        span.draggable = true;
+        span.textContent = word;
+        span.ondragstart = (e) => e.dataTransfer.setData("text/plain", word);
+        container.appendChild(span);
+      });
+    }
+
+    dropzone.ondragover = (e) => {
+      e.preventDefault();
+      dropzone.classList.add("over");
+    };
+
+    dropzone.ondragleave = () => {
+      dropzone.classList.remove("over");
+    };
+
+    dropzone.ondrop = (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("over");
+
+      const word = e.dataTransfer.getData("text/plain");
+      if (!draggedWords.includes(word)) {
+        draggedWords.push(word);
+      }
+
+      if (draggedWords.length === 2) {
+        generateIdeas(draggedWords[0], draggedWords[1]);
+        draggedWords = [];
+      }
+    };
+
+    function generateIdeas(w1, w2) {
+      const ideas = [
+        `${w1} mais avec ${w2}`,
+        `Peut-on survivre à ${w2} dans ${w1} ?`,
+        `${w1} vs ${w2} : le défi ultime`,
+        `Fusion de ${w1} et ${w2} en un seul jeu !`,
+        `Top 10 des mods ${w2} dans ${w1}`,
+        `${w1} en mode ${w2}`,
+        `Créer ${w2} dans ${w1}`,
+        `${w1} avec une touche de ${w2}`,
+        `J'ai testé ${w1} avec les règles de ${w2}`,
+        `Un monde ${w1} contrôlé par ${w2}`
+      ];
+
+      const html = ideas.map(idea => `<li>• ${idea}</li>`).join("");
+      resultDiv.innerHTML = `
+        💡 Idées de vidéos :
+        <ul style="list-style: none; padding: 0;">${html}</ul>
+        <div class="chatgpt-link" onclick="redirectToChatGPT('${w1}', '${w2}')">
+          🤖 Obtenir plus d'idées avec ChatGPT
+        </div>
+      `;
+    }
+
+    function generateSmartIdea() {
+      // Construction d'une idée complète "intelligente"
+      const actionVerbs = ["Tester", "Défi", "Construire", "Découvrir", "Survivre à", "Dominer", "Exploser", "Réussir"];
+      const objects = ["le monde de", "les secrets de", "le mode", "le serveur", "les meilleures astuces pour", "le gameplay de"];
+      const games = wordList;
+
+      const verb = actionVerbs[Math.floor(Math.random() * actionVerbs.length)];
+      const object = objects[Math.floor(Math.random() * objects.length)];
+      const game = games[Math.floor(Math.random() * games.length)];
+
+      const idea = `${verb} ${object} ${game} !`;
+
+      resultDiv.innerHTML = `
+        🧠 Idée aléatoire intelligente :<br><strong>${idea}</strong><br>
+        <div class="chatgpt-link" onclick="redirectToChatGPTSmart('${idea}')">
+          🤖 Obtenir des idées similaires avec ChatGPT
+        </div>
+      `;
+    }
+
+    function redirectToChatGPT(w1, w2) {
+      const prompt = encodeURIComponent(`Donne-moi 10 idées de vidéos YouTube en rapport avec "${w1}" et "${w2}"`);
+      window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
+    }
+
+    function redirectToChatGPTSmart(idea) {
+      const prompt = encodeURIComponent(`Donne-moi 10 idées de vidéos YouTube similaires à : "${idea}"`);
+      window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
+    }
+
+    function resetFusion() {
+      draggedWords = [];
+      resultDiv.innerHTML = '';
+      generateWords();
+    }
+
+    // Démarrage automatique
+    generateWords();
+  </script>
+</body>
+</html>
