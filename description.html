@@ -1,1 +1,92 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><title>Description</title></head><body><h1>Générateur de description</h1></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📝 Générateur de Description YouTube Gaming</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 {
+      color: #00bfff;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #00bfff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 1rem;
+    }
+    #description {
+      background-color: #222;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 2rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: pre-wrap;
+      color: #00ff99;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📝 Générateur de Description YouTube Gaming</h1>
+  <button onclick="generateDescription()">🔁 Générer une description</button>
+  <div id="description">Clique sur le bouton pour obtenir une description !</div>
+
+  <script>
+    const games = [
+      "Minecraft", "Fortnite", "Roblox", "Among Us", "Valorant", "GTA V", "Call of Duty"
+    ];
+
+    const themes = [
+      "défi de survie", "aventure incroyable", "combat PvP intense", 
+      "découverte de mods", "speedrun", "glitch fou", "expérience multijoueur"
+    ];
+
+    const invitations = [
+      "N'oublie pas de liker, commenter et t'abonner ! 🔔",
+      "Dis-moi en commentaire ce que tu en penses ! 💬",
+      "Tu veux plus de contenu comme ça ? Abonne-toi ! ❤️",
+      "Active la cloche pour ne rien rater ! 🔔"
+    ];
+
+    const socials = [
+      "📸 Insta : @MonPseudoYT",
+      "🐦 Twitter : @MonPseudoYT",
+      "🎮 Discord : discord.gg/mongaming",
+      "🔥 Mon site : www.monsitegaming.com"
+    ];
+
+    function generateDescription() {
+      const game = games[Math.floor(Math.random() * games.length)];
+      const theme = themes[Math.floor(Math.random() * themes.length)];
+      const invite = invitations[Math.floor(Math.random() * invitations.length)];
+      const social = socials[Math.floor(Math.random() * socials.length)];
+
+      const desc = `Aujourd'hui, on se retrouve sur ${game} pour un ${theme} ! 😱
+Je vais tenter l'impossible dans cet épisode plein de surprises.
+
+${invite}
+
+🔗 Suis-moi :
+${social}
+
+#Gaming #${game} #Fr`;
+
+      document.getElementById("description").textContent = desc;
+    }
+  </script>
+
+</body>
+</html>
