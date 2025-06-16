@@ -12,10 +12,6 @@
       text-align: center;
       padding: 2rem;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
     button {
       padding: 10px 20px;
       margin: 0.5rem;
@@ -61,12 +57,9 @@
       display: flex;
       align-items: center;
     }
-    .chatgpt-link {
+    .chatgpt-copy {
       margin-top: 1rem;
-      font-size: 0.95rem;
-      color: #00bfff;
-      text-decoration: underline;
-      cursor: pointer;
+      background-color: #2ecc71;
     }
   </style>
 </head>
@@ -137,6 +130,8 @@
     };
 
     function generateIdeas(w1, w2) {
+      const prompt = `Tu es un expert YouTube gaming. Donne 10 idées de vidéos virales et originales basées sur "${w1}" et "${w2}".`;
+
       const ideas = [
         `${w1} mais avec ${w2}`,
         `Peut-on survivre à ${w2} dans ${w1} ?`,
@@ -151,16 +146,20 @@
       ];
 
       const html = ideas.map(idea => `<li>• ${idea}</li>`).join("");
+
       resultDiv.innerHTML = `
-        💡 Idées de vidéos :
+        💡 Idées générées :
         <ul style="list-style: none; padding: 0;">${html}</ul>
-        <div class="chatgpt-link" onclick="redirectToChatGPT('${w1}', '${w2}')">
-          🤖 Idées classiques avec ChatGPT
-        </div>
-        <div class="chatgpt-link" onclick="redirectToChatGPTBoost('${w1}', '${w2}')">
-          📈 Boost avec ChatGPT (meilleure qualité)
-        </div>
+        <button class="chatgpt-copy" onclick="copyPromptAndOpenChatGPT(\`${prompt}\`)">
+          📋 Copier le prompt et ouvrir ChatGPT
+        </button>
       `;
+    }
+
+    function copyPromptAndOpenChatGPT(prompt) {
+      navigator.clipboard.writeText(prompt).then(() => {
+        window.open("https://chat.openai.com/chat", "_blank");
+      });
     }
 
     function generateSmartIdea() {
@@ -176,25 +175,10 @@
 
       resultDiv.innerHTML = `
         🧠 Idée aléatoire intelligente :<br><strong>${idea}</strong><br>
-        <div class="chatgpt-link" onclick="redirectToChatGPTSmart('${idea}')">
-          🤖 Obtenir des idées similaires avec ChatGPT
-        </div>
+        <button class="chatgpt-copy" onclick="copyPromptAndOpenChatGPT('Donne 10 idées similaires à : ${idea}')">
+          📋 Copier le prompt et ouvrir ChatGPT
+        </button>
       `;
-    }
-
-    function redirectToChatGPT(w1, w2) {
-      const prompt = encodeURIComponent(`Donne-moi 10 idées de vidéos YouTube en rapport avec "${w1}" et "${w2}"`);
-      window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
-    }
-
-    function redirectToChatGPTBoost(w1, w2) {
-      const prompt = encodeURIComponent(`Tu es un expert YouTube en création de contenu viral sur les jeux vidéo. Propose-moi 10 idées de vidéos originales, attractives et bien structurées en rapport avec "${w1}" et "${w2}". Utilise des titres impactants et adaptés aux tendances actuelles.`);
-      window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
-    }
-
-    function redirectToChatGPTSmart(idea) {
-      const prompt = encodeURIComponent(`Tu es un expert YouTube gaming. Donne-moi 10 idées similaires à : "${idea}"`);
-      window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
     }
 
     function resetFusion() {
