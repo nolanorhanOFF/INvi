@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Infinite Vidéo</title>
+  <title>Fusion d'idées Gaming</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -155,14 +155,16 @@
         💡 Idées de vidéos :
         <ul style="list-style: none; padding: 0;">${html}</ul>
         <div class="chatgpt-link" onclick="redirectToChatGPT('${w1}', '${w2}')">
-          🤖 Obtenir plus d'idées avec ChatGPT
+          🤖 Idées classiques avec ChatGPT
+        </div>
+        <div class="chatgpt-link" onclick="redirectToChatGPTBoost('${w1}', '${w2}')">
+          📈 Boost avec ChatGPT (meilleure qualité)
         </div>
       `;
     }
 
     function generateSmartIdea() {
-      // Construction d'une idée complète "intelligente"
-      const actionVerbs = ["Tester", "Défi", "Construire", "Découvrir", "Survivre à", "Dominer", "Exploser", "Réussir"];
+      const actionVerbs = ["Tester", "Défi", "Construire", "Découvrir", "Survivre à", "Dominer", "Réussir"];
       const objects = ["le monde de", "les secrets de", "le mode", "le serveur", "les meilleures astuces pour", "le gameplay de"];
       const games = wordList;
 
@@ -185,8 +187,13 @@
       window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
     }
 
+    function redirectToChatGPTBoost(w1, w2) {
+      const prompt = encodeURIComponent(`Tu es un expert YouTube en création de contenu viral sur les jeux vidéo. Propose-moi 10 idées de vidéos originales, attractives et bien structurées en rapport avec "${w1}" et "${w2}". Utilise des titres impactants et adaptés aux tendances actuelles.`);
+      window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
+    }
+
     function redirectToChatGPTSmart(idea) {
-      const prompt = encodeURIComponent(`Donne-moi 10 idées de vidéos YouTube similaires à : "${idea}"`);
+      const prompt = encodeURIComponent(`Tu es un expert YouTube gaming. Donne-moi 10 idées similaires à : "${idea}"`);
       window.open(`https://chat.openai.com/chat?prompt=${prompt}`, '_blank');
     }
 
@@ -196,7 +203,6 @@
       generateWords();
     }
 
-    // Démarrage automatique
     generateWords();
   </script>
 </body>
