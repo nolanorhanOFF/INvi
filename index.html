@@ -1,233 +1,36 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Fusion d'idées Gaming - 100 idées</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #111;
-    color: #fff;
-    margin: 0;
-    padding: 2rem;
-    max-width: 900px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  h1 {
-    text-align: center;
-  }
-  button {
-    padding: 10px 20px;
-    margin: 0.4rem 0.3rem;
-    background-color: #00bfff;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    user-select: none;
-  }
-  .words-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .word {
-    padding: 10px 15px;
-    background-color: #333;
-    border-radius: 6px;
-    cursor: grab;
-    user-select: none;
-  }
-  .dropzone {
-    margin-top: 2rem;
-    padding: 30px;
-    border: 2px dashed #555;
-    border-radius: 10px;
-    color: #888;
-    font-size: 1.1rem;
-    text-align: center;
-  }
-  .dropzone.over {
-    background-color: #222;
-    border-color: #00bfff;
-    color: #00bfff;
-  }
-  .result {
-    font-size: 1rem;
-    margin-top: 2rem;
-    color: #00ff99;
-    flex-direction: column;
-    display: flex;
-    align-items: center;
-  }
-  .result ul {
-    padding-left: 0;
-    list-style: none;
-    max-height: 350px;
-    overflow-y: auto;
-    width: 100%;
-  }
-  .result li {
-    margin: 0.3rem 0;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connexion - Accès Payant</title>
+  <style>
+    body { background: #111; color: white; font-family: Arial; text-align: center; padding-top: 10%; }
+    input, button {
+      padding: 10px; border-radius: 5px; border: none; margin: 5px;
+    }
+    button { background-color: #00bfff; color: white; }
+  </style>
 </head>
 <body>
-
-<h1>Fusionne des idées pour créer ta vidéo gaming !</h1>
-<div style="text-align:center;">
-  <button onclick="generateWords()">🎮 Générer des mots</button>
-  <button onclick="resetFusion()">🔁 Recharger</button>
-  <button onclick="generateSmartIdea()">🧠 Idée aléatoire intelligente</button>
-</div>
-<div class="words-container" id="wordsContainer"></div>
-
-<div class="dropzone" id="dropzone">💡 Glisse ici 2 mots pour générer une idée de vidéo</div>
-<div class="result" id="result"></div>
-
-<script>
-  const wordList = [
-    "Minecraft", "Battle Royale", "Speedrun", "Moddé", "Défi", "Survie",
-    "100 jours", "Troll", "PvP", "Skyblock", "Roblox", "Glitch",
-    "Multijoueur", "Hardcore", "Fortnite", "Créatif", "Among Us", "Simulation",
-    "Parkour", "Build", "Pixel Art", "Challenge", "Horreur", "Mini-jeu",
-    "One Block", "Bed Wars", "Redstone", "Escape Room", "Jeu mobile", "IA",
-    "Mode Zombie", "Noob vs Pro", "Sans HUD", "Graphismes Réalistes", "Roleplay", "Coop",
-    "Speedrun", "Aventure", "PvE", "FPS", "MMORPG", "Battle Pass", "Quête",
-    "Mines", "Crafting", "Boss", "Énigme", "Arcade", "Automatisation",
-    "Clash", "Battle", "Guerre", "FPS", "Tactique", "Streamer", "Tutoriel",
-    "Esport", "Décryptage", "Secrets", "Lore", "Mods", "Speedbuild",
-    "Événement", "Top 10", "Guide", "Survival Horror", "Mini-Boss",
-    "Sandbox", "Simulation", "Gacha", "Mode Créatif", "Teamplay",
-    "No Death", "Run", "Compétitif", "Triche", "Multigaming", "Défi Fou",
-    "Exploration", "Coopération", "Mode Hardcore", "Speedrun Challenge",
-    "Fail", "Trucs et astuces", "Glitch", "Hack", "Meme", "Gameplay"
-  ];
-
-  let draggedWords = [];
-  const dropzone = document.getElementById('dropzone');
-  const resultDiv = document.getElementById('result');
-
-  function generateWords() {
-    const container = document.getElementById('wordsContainer');
-    container.innerHTML = '';
-    resultDiv.innerHTML = '';
-    draggedWords = [];
-
-    const shuffled = [...wordList].sort(() => 0.5 - Math.random()).slice(0, 16);
-
-    shuffled.forEach(word => {
-      const span = document.createElement('span');
-      span.className = 'word';
-      span.draggable = true;
-      span.textContent = word;
-      span.ondragstart = (e) => e.dataTransfer.setData("text/plain", word);
-      container.appendChild(span);
-    });
-  }
-
-  dropzone.ondragover = (e) => {
-    e.preventDefault();
-    dropzone.classList.add("over");
-  };
-
-  dropzone.ondragleave = () => {
-    dropzone.classList.remove("over");
-  };
-
-  dropzone.ondrop = (e) => {
-    e.preventDefault();
-    dropzone.classList.remove("over");
-
-    const word = e.dataTransfer.getData("text/plain");
-    if (!draggedWords.includes(word)) {
-      draggedWords.push(word);
+  <h1>🔐 Connexion</h1>
+  <p>Accès réservé (5 € requis)</p>
+  <input type="text" id="codeInput" placeholder="Entre ton code d'accès">
+  <button onclick="verifyCode()">Se connecter</button>
+  <p id="result"></p>
+  <script>
+    async function verifyCode() {
+      const code = document.getElementById("codeInput").value;
+      const res = await fetch("code.txt"); // fichier contenant les codes valides
+      const text = await res.text();
+      const codes = text.split(/\r?\n/);
+      if (codes.includes(code)) {
+        window.location.href = "fusion.html";
+      } else {
+        document.getElementById("result").innerText = "❌ Code invalide";
+      }
     }
-
-    if (draggedWords.length === 2) {
-      generateIdeas(draggedWords[0], draggedWords[1]);
-      draggedWords = [];
-    }
-  };
-
-  function generateIdeas(w1, w2) {
-    const templates = [
-      `${w1} mais avec ${w2}`,
-      `Peut-on survivre à ${w2} dans ${w1} ?`,
-      `${w1} vs ${w2} : le duel ultime`,
-      `Fusion de ${w1} et ${w2} en un seul jeu !`,
-      `Top 10 des mods ${w2} dans ${w1}`,
-      `${w1} en mode ${w2}`,
-      `Créer ${w2} dans ${w1}`,
-      `${w1} avec une touche de ${w2}`,
-      `J'ai testé ${w1} avec les règles de ${w2}`,
-      `Un monde ${w1} contrôlé par ${w2}`,
-      `Comment maîtriser ${w2} dans ${w1} ?`,
-      `Les pires fails de ${w1} et ${w2}`,
-      `Le défi ultime : ${w1} + ${w2}`,
-      `Secrets cachés de ${w1} avec ${w2}`,
-      `Le guide complet pour ${w2} sur ${w1}`,
-      `Survivre 100 jours avec ${w1} et ${w2}`,
-      `La meilleure stratégie ${w2} dans ${w1}`,
-      `${w1} en mode extrême ${w2}`,
-      `Mes astuces pour ${w2} dans ${w1}`,
-      `Tester les nouveautés ${w2} dans ${w1}`,
-      `Le lore de ${w1} fusionné avec ${w2}`,
-      `Comment construire ${w2} dans ${w1} ?`,
-      `PvP intensif : ${w1} contre ${w2}`,
-      `La meilleure équipe ${w2} dans ${w1}`,
-      `Découvrir les bugs de ${w1} et ${w2}`,
-      `Pourquoi ${w1} + ${w2} est si fun ?`,
-      `Les top moments ${w1} x ${w2}`,
-      `Créer un serveur ${w2} sur ${w1}`,
-      `Les défis fous avec ${w1} et ${w2}`,
-      `Test en coop de ${w1} et ${w2}`,
-    ];
-
-    let ideas = [];
-    for(let i=0; ideas.length < 100; i++) {
-      const t = templates[i % templates.length];
-      ideas.push(t);
-    }
-
-    const html = ideas.map(idea => `<li>• ${idea}</li>`).join("");
-
-    resultDiv.innerHTML = `
-      💡 100 idées générées pour "${w1}" + "${w2}" :
-      <ul>${html}</ul>
-    `;
-  }
-
-  function resetFusion() {
-    resultDiv.innerHTML = "";
-    draggedWords = [];
-    generateWords();
-  }
-
-  function generateSmartIdea() {
-    const actionVerbs = ["Tester", "Défi", "Construire", "Découvrir", "Survivre à", "Dominer", "Réussir"];
-    const objects = ["le monde de", "les secrets de", "le mode", "le serveur", "les meilleures astuces pour", "le gameplay de"];
-    const games = wordList;
-
-    const verb = actionVerbs[Math.floor(Math.random() * actionVerbs.length)];
-    const object = objects[Math.floor(Math.random() * objects.length)];
-    const game = games[Math.floor(Math.random() * games.length)];
-
-    const idea = `${verb} ${object} ${game} !`;
-
-    resultDiv.innerHTML = `
-      🧠 Idée aléatoire intelligente :<br><strong>${idea}</strong><br><br>
-    `;
-  }
-
-  // Initialiser les mots au chargement
-  generateWords();
-</script>
-
+  </script>
 </body>
 </html>
