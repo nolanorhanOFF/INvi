@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connexion - Accès Payant</title>
   <style>
     body { background: #111; color: white; font-family: Arial; text-align: center; padding-top: 10%; }
@@ -20,11 +19,9 @@
   <button onclick="verifyCode()">Se connecter</button>
   <p id="result"></p>
   <script>
-    async function verifyCode() {
-      const code = document.getElementById("codeInput").value;
-      const res = await fetch("code.txt"); // fichier contenant les codes valides
-      const text = await res.text();
-      const codes = text.split(/\r?\n/);
+    function verifyCode() {
+      const code = document.getElementById("codeInput").value.trim();
+      const codes = ["ABC123", "XYZ789", "DEF456"];
       if (codes.includes(code)) {
         window.location.href = "fusion.html";
       } else {
