@@ -1,140 +1,171 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🖼️ Optimiseur de Miniature YouTube Gaming</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #111;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-    h1 {
-      color: #00ffcc;
-    }
-    select, input[type="file"], button {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 8px;
-      font-size: 1rem;
-      border: none;
-    }
-    select, input[type="file"] {
-      background-color: #333;
-      color: white;
-    }
-    button {
-      background-color: #00ffcc;
-      color: white;
-      cursor: pointer;
-    }
-    img {
-      margin-top: 1rem;
-      max-width: 300px;
-      border: 4px solid #00ffcc;
-      border-radius: 10px;
-    }
-    #result {
-      margin-top: 2rem;
-      background-color: #222;
-      padding: 1rem;
-      border-radius: 10px;
-      font-size: 1rem;
-      color: #00ff99;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-      white-space: pre-line;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Miniature avec texte et téléchargement</title>
+<style>
+  body {
+    background: #111;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 2rem;
+  }
+  select, input[type=file], button {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    font-size: 1rem;
+    border: none;
+  }
+  select, input[type=file] {
+    background-color: #333;
+    color: white;
+  }
+  button {
+    background-color: #00ffcc;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  canvas {
+    margin-top: 1rem;
+    border: 4px solid #00ffcc;
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+  }
+  #downloadBtn {
+    display: none;
+    margin-top: 1rem;
+    background-color: #00cc99;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+</style>
 </head>
 <body>
 
-  <h1>🖼️ Optimiseur de Miniature YouTube Gaming</h1>
+<h1>🖼️ Miniature personnalisée & téléchargement</h1>
 
-  <input type="file" accept="image/*" id="thumbnailInput" />
-  <br>
+<input type="file" id="fileInput" accept="image/*" />
+<br>
 
-  <label for="game">🎮 Jeu :</label>
-  <select id="game">
-    <option value="">-- Choisis le jeu --</option>
-    <option value="Minecraft">Minecraft</option>
-    <option value="Fortnite">Fortnite</option>
-    <option value="Roblox">Roblox</option>
-    <option value="Call of Duty">Call of Duty</option>
-    <option value="Among Us">Among Us</option>
-    <option value="GTA V">GTA V</option>
-    <option value="Valorant">Valorant</option>
-  </select>
+<label for="game">🎮 Choisis un jeu :</label>
+<select id="game">
+  <option value="">-- Choisis --</option>
+  <option value="Minecraft">Minecraft</option>
+  <option value="Fortnite">Fortnite</option>
+  <option value="Roblox">Roblox</option>
+  <option value="Call of Duty">Call of Duty</option>
+  <option value="Among Us">Among Us</option>
+  <option value="GTA V">GTA V</option>
+  <option value="Valorant">Valorant</option>
+</select>
 
-  <label for="theme">🧠 Thème :</label>
-  <select id="theme">
-    <option value="">-- Choisis un thème --</option>
-    <option value="Défi">Défi</option>
-    <option value="Troll">Troll</option>
-    <option value="Secrets">Secrets</option>
-    <option value="Hardcore">Hardcore</option>
-    <option value="Mods">Mods</option>
-    <option value="Build">Construction</option>
-  </select>
+<label for="theme">🧠 Choisis un thème :</label>
+<select id="theme">
+  <option value="">-- Choisis --</option>
+  <option value="Défi">Défi</option>
+  <option value="Troll">Troll</option>
+  <option value="Secrets">Secrets</option>
+  <option value="Hardcore">Hardcore</option>
+  <option value="Mods">Mods</option>
+  <option value="Build">Construction</option>
+</select>
 
-  <br>
-  <button onclick="analyzeThumbnail()">✨ Analyser & Améliorer</button>
+<br>
 
-  <div id="imagePreview"></div>
-  <div id="result">Envoie une miniature et choisis les infos pour avoir les conseils !</div>
+<button id="generateBtn">✨ Analyser & Ajouter Texte</button>
 
-  <script>
-    document.getElementById("thumbnailInput").addEventListener("change", function () {
-      const file = this.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          document.getElementById("imagePreview").innerHTML = `<img src="${e.target.result}" alt="Miniature">`;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
+<br>
 
-    function analyzeThumbnail() {
-      const game = document.getElementById("game").value;
-      const theme = document.getElementById("theme").value;
+<canvas id="canvas"></canvas>
+<br>
+<button id="downloadBtn">⬇️ Télécharger la miniature</button>
 
-      if (!game || !theme) {
-        document.getElementById("result").innerText = "⚠️ Tu dois choisir un jeu et un thème.";
-        return;
-      }
+<script>
+  const fileInput = document.getElementById('fileInput');
+  const gameSelect = document.getElementById('game');
+  const themeSelect = document.getElementById('theme');
+  const generateBtn = document.getElementById('generateBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
 
-      let tips = `🔍 Analyse pour ${game} (${theme}) :\n\n`;
+  let img = new Image();
 
-      // Suggestions personnalisées
-      const baseTips = {
-        "Minecraft": "✅ Utilise des couleurs vives (vert, bleu, orange)\n✅ Mets des blocs emblématiques ou ton skin\n❌ Évite trop de texte",
-        "Fortnite": "✅ Gros personnages en pose d'action\n✅ Armes visibles + effets visuels\n❌ Ne surcharge pas l'image",
-        "Roblox": "✅ Personnages Roblox expressifs\n✅ Arrière-plan clair\n✅ Police fun style cartoon",
-        "Call of Duty": "✅ Scène d'action ou explosion\n✅ Couleurs sombres + rouges\n✅ Texte en capitales",
-        "Among Us": "✅ Mêmes codes couleurs des persos\n✅ Police simple mais grande\n✅ Flèches ou cercles pour attirer l'œil",
-        "GTA V": "✅ Style réaliste ou bande dessinée\n✅ Personnages principaux visibles\n✅ Mets du mystère avec effets sombres",
-        "Valorant": "✅ Agent + arme + fond coloré du jeu\n✅ Effet néon ou contrasté\n✅ Pas trop de texte, visuel rapide"
+  // Charger l'image uploadée dans l'objet img
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      img = new Image();
+      img.onload = () => {
+        // Redimensionner le canvas à la taille de l'image
+        canvas.width = img.width;
+        canvas.height = img.height;
+        // Afficher image brute au départ
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0);
+        downloadBtn.style.display = 'none'; // cacher bouton téléchargement tant que non généré
       };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 
-      const themeTips = {
-        "Défi": "Ajoute '100 JOURS' ou 'NO DEATH' en gros 🔥",
-        "Troll": "Mets un emoji 😂 ou un perso choqué",
-        "Secrets": "Entoure une zone, ajoute un '?!' ou flèche",
-        "Hardcore": "Montre ta vie très basse ou un crâne ☠️",
-        "Mods": "Montre les nouveaux objets visuellement",
-        "Build": "Zoom sur ta construction + flèche + surprise 😮"
-      };
+  generateBtn.addEventListener('click', () => {
+    const game = gameSelect.value;
+    const theme = themeSelect.value;
 
-      tips += baseTips[game] + "\n\n🎯 Astuce spéciale pour le thème :\n" + themeTips[theme];
-
-      document.getElementById("result").innerText = tips;
+    if (!img.src) {
+      alert("⚠️ Merci d'uploader une image !");
+      return;
     }
-  </script>
+    if (!game || !theme) {
+      alert("⚠️ Merci de choisir un jeu et un thème !");
+      return;
+    }
+
+    // Dessiner l'image sur le canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+
+    // Ajouter un overlay semi-transparent en bas
+    const overlayHeight = canvas.height * 0.2;
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
+    ctx.fillRect(0, canvas.height - overlayHeight, canvas.width, overlayHeight);
+
+    // Ajouter texte (jeu et thème) centré dans l'overlay
+    ctx.fillStyle = '#00ffcc';
+    ctx.font = `bold ${Math.floor(overlayHeight / 2.5)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const text = `${game} - ${theme}`;
+    ctx.fillText(text, canvas.width / 2, canvas.height - overlayHeight / 2);
+
+    // Afficher bouton téléchargement
+    downloadBtn.style.display = 'inline-block';
+  });
+
+  downloadBtn.addEventListener('click', () => {
+    const dataUrl = canvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'miniature-personnalisee.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
+</script>
 
 </body>
 </html>
