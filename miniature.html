@@ -3,96 +3,112 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Miniature Minecraft stylée</title>
+<title>Générateur Miniature Minecraft Ultra Stylé</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
 
   body {
-    background: #0c0c0c;
+    margin: 0;
+    background: linear-gradient(135deg, #080808, #0f2027);
     color: #eee;
-    font-family: 'Press Start 2P', cursive, monospace;
+    font-family: 'Luckiest Guy', cursive, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  h1 {
+    margin-bottom: 15px;
+    text-shadow: 0 0 8px #00fff7aa;
+    font-size: 2.8rem;
+  }
+
+  #controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  select, input[type="file"], button {
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: none;
+    font-size: 1.1rem;
+    outline: none;
+    background: #0ff1c0;
+    color: #022;
+    font-weight: 700;
+    box-shadow: 0 0 12px #0ff1c0aa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 170px;
     text-align: center;
-    padding: 2rem;
   }
-  input[type=file], select, button {
-    padding: 10px 15px;
-    margin: 10px 5px;
-    border-radius: 10px;
-    border: none;
-    font-size: 1rem;
-    background: #222;
-    color: #eee;
-    transition: background 0.3s ease;
+
+  select:hover, input[type="file"]:hover, button:hover {
+    background: #0ff1c0ee;
+    box-shadow: 0 0 20px #0ff1c0ff;
   }
-  input[type=file]:hover, select:hover, button:hover {
-    background: #00ffcc;
-    color: #000;
-    cursor: pointer;
-  }
+
   canvas {
-    margin-top: 1rem;
-    border-radius: 20px;
+    border-radius: 30px;
     max-width: 100%;
-    box-shadow: 0 0 30px #00ffccaa;
+    box-shadow:
+      0 0 15px #00ffe0aa,
+      inset 0 0 40px #00ffe0cc;
+    background: #121212;
   }
+
   #downloadBtn {
-    display: none;
-    margin-top: 1rem;
-    background-color: #00cc99;
-    color: white;
+    margin-top: 15px;
+    padding: 14px 50px;
+    font-size: 1.3rem;
+    border-radius: 40px;
+    background: linear-gradient(45deg, #00fff7, #00c7b7);
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    border-radius: 20px;
+    color: #022;
+    font-weight: 700;
+    box-shadow: 0 0 20px #00fff7bb;
     cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 0 15px #00cc99;
     transition: background 0.3s ease;
+    display: none;
   }
+
   #downloadBtn:hover {
-    background-color: #00ffaa;
+    background: linear-gradient(45deg, #00c7b7, #00fff7);
   }
 </style>
 </head>
 <body>
 
-<h1>🎮 Miniature stylée personnalisée</h1>
+<h1>Miniature Minecraft Ultra Stylée</h1>
 
-<input type="file" id="fileInput" accept="image/*" />
-<br>
+<div id="controls">
+  <input type="file" id="fileInput" accept="image/*" />
+  <select id="game">
+    <option value="">Choisis un jeu</option>
+    <option value="Minecraft">Minecraft</option>
+    <option value="Fortnite">Fortnite</option>
+    <option value="Roblox">Roblox</option>
+  </select>
+  <select id="theme">
+    <option value="">Choisis un thème</option>
+    <option value="Défi">Défi</option>
+    <option value="Troll">Troll</option>
+    <option value="Secrets">Secrets</option>
+    <option value="Hardcore">Hardcore</option>
+    <option value="Mods">Mods</option>
+  </select>
+  <button id="generateBtn">Générer</button>
+</div>
 
-<label for="game">Choisis un jeu :</label>
-<select id="game">
-  <option value="">-- Choisis --</option>
-  <option value="Minecraft">Minecraft</option>
-  <option value="Fortnite">Fortnite</option>
-  <option value="Roblox">Roblox</option>
-  <option value="Call of Duty">Call of Duty</option>
-  <option value="Among Us">Among Us</option>
-  <option value="GTA V">GTA V</option>
-  <option value="Valorant">Valorant</option>
-</select>
+<canvas id="canvas" width="1280" height="720"></canvas>
 
-<label for="theme">Choisis un thème :</label>
-<select id="theme">
-  <option value="">-- Choisis --</option>
-  <option value="Défi">Défi</option>
-  <option value="Troll">Troll</option>
-  <option value="Secrets">Secrets</option>
-  <option value="Hardcore">Hardcore</option>
-  <option value="Mods">Mods</option>
-  <option value="Build">Construction</option>
-</select>
-
-<br>
-
-<button id="generateBtn">✨ Générer la miniature stylée</button>
-
-<br>
-
-<canvas id="canvas"></canvas>
-<br>
-<button id="downloadBtn">⬇️ Télécharger la miniature</button>
+<button id="downloadBtn">Télécharger la miniature</button>
 
 <script>
   const fileInput = document.getElementById('fileInput');
@@ -104,164 +120,177 @@
   const ctx = canvas.getContext('2d');
 
   let img = new Image();
+  let imgLoaded = false;
 
-  fileInput.addEventListener('change', (e) => {
+  // Chargement de l'image uploadée
+  fileInput.addEventListener('change', e => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = function(event) {
-      img = new Image();
+    reader.onload = function(evt) {
+      img.src = evt.target.result;
       img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0);
+        imgLoaded = true;
+        // Adapter canvas à l'image (max 1280x720)
+        const ratio = img.width / img.height;
+        if (img.width > 1280 || img.height > 720) {
+          if (ratio > 1280/720) {
+            canvas.width = 1280;
+            canvas.height = 1280 / ratio;
+          } else {
+            canvas.height = 720;
+            canvas.width = 720 * ratio;
+          }
+        } else {
+          canvas.width = img.width;
+          canvas.height = img.height;
+        }
+        drawBaseImage();
         downloadBtn.style.display = 'none';
       };
-      img.src = event.target.result;
     };
     reader.readAsDataURL(file);
   });
 
-  // Fonction pour dessiner des blocs pixelisés Minecraft en fond
-  function drawMinecraftBlocks() {
-    const blockSize = 30;
-    const countX = Math.floor(canvas.width / blockSize);
-    const countY = Math.floor(canvas.height / blockSize);
-
-    for(let i=0; i < 60; i++) {  // dessine 60 petits blocs aléatoires
-      const x = Math.floor(Math.random() * countX) * blockSize;
-      const y = Math.floor(Math.random() * countY) * blockSize;
-
-      // Couleur « terre Minecraft » avec nuances
-      const brownShades = ['#7B5A2B', '#8C6A3F', '#9A7F55'];
-      const color = brownShades[Math.floor(Math.random()*brownShades.length)];
-
-      ctx.fillStyle = color;
-      ctx.fillRect(x, y, blockSize, blockSize);
-
-      // Ombre bas droit du bloc
-      ctx.fillStyle = 'rgba(0,0,0,0.3)';
-      ctx.fillRect(x + blockSize*0.7, y + blockSize*0.7, blockSize*0.3, blockSize*0.3);
-    }
+  // Fonction pour dessiner l’image de base et le cadre lumineux
+  function drawBaseImage() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    // Cadre lumineux bleu/cyan
+    ctx.lineWidth = 20;
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#00fff7');
+    gradient.addColorStop(1, '#00c7b7');
+    ctx.strokeStyle = gradient;
+    ctx.shadowColor = '#00fff7bb';
+    ctx.shadowBlur = 20;
+    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+    ctx.shadowBlur = 0;
   }
 
-  // Fonction pour dessiner un contour au texte (stroke + fill)
-  function drawTextWithOutline(text, x, y, fontSize, fillColor, strokeColor) {
-    ctx.font = `bold ${fontSize}px 'Press Start 2P', cursive`;
-    ctx.lineWidth = Math.floor(fontSize/10);
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    ctx.strokeStyle = strokeColor;
-    ctx.strokeText(text, x, y);
-
-    ctx.fillStyle = fillColor;
-    ctx.fillText(text, x, y);
-  }
-
-  // Fonction pour dessiner un petit bloc Minecraft iconique en haut gauche
-  function drawMinecraftIcon(x, y, size) {
-    // Bloc pixelisé simple terre + herbe
-    const grassGreen = '#4CAF50';
-    const dirtBrown = '#7B5A2B';
-    const shadow = 'rgba(0,0,0,0.5)';
-
-    const pixelSize = size / 8;
-
-    // 8x8 pixels
-    for(let px=0; px<8; px++) {
-      for(let py=0; py<8; py++) {
-        let color = null;
-        if (py < 2) {
-          // Herbe en haut : 2 lignes
-          color = grassGreen;
-        } else {
-          color = dirtBrown;
-        }
-        // Pour faire un effet pixel break
-        if(Math.random() < 0.05) color = shadeColor(color, -30);
-
+  // Dessine un fond pixelisé style Minecraft
+  function drawMinecraftBackground() {
+    const blockSize = 40;
+    const cols = Math.ceil(canvas.width / blockSize);
+    const rows = Math.ceil(canvas.height / blockSize);
+    const dirtColors = ['#6B4C1B', '#7A5B28', '#5D3E0F', '#7B5A2B'];
+    const grassColors = ['#3A7D21', '#2F6B1B', '#4BA329'];
+    for(let y=0; y<rows; y++) {
+      for(let x=0; x<cols; x++) {
+        let color = dirtColors[Math.floor(Math.random() * dirtColors.length)];
+        if (y === 0) color = grassColors[Math.floor(Math.random() * grassColors.length)];
         ctx.fillStyle = color;
-        ctx.fillRect(x + px*pixelSize, y + py*pixelSize, pixelSize, pixelSize);
+        ctx.fillRect(x * blockSize, y * blockSize, blockSize - 2, blockSize - 2);
       }
     }
-
-    // Ombre légère
-    ctx.fillStyle = shadow;
-    ctx.fillRect(x + size*0.7, y + size*0.7, size*0.3, size*0.3);
   }
 
-  // Petite fonction pour assombrir une couleur (en hex)
-  function shadeColor(color, percent) {
-    let R = parseInt(color.substring(1,3),16);
-    let G = parseInt(color.substring(3,5),16);
-    let B = parseInt(color.substring(5,7),16);
-
-    R = parseInt(R * (100 + percent) / 100);
-    G = parseInt(G * (100 + percent) / 100);
-    B = parseInt(B * (100 + percent) / 100);
-
-    R = (R<255)?R:255;
-    G = (G<255)?G:255;
-    B = (B<255)?B:255;
-
-    const RR = (R.toString(16).length===1) ? '0'+R.toString(16) : R.toString(16);
-    const GG = (G.toString(16).length===1) ? '0'+G.toString(16) : G.toString(16);
-    const BB = (B.toString(16).length===1) ? '0'+B.toString(16) : B.toString(16);
-
-    return '#'+RR+GG+BB;
+  // Dessine icône Minecraft pixelisée en haut gauche
+  function drawMinecraftIcon(x, y, size) {
+    const pixelSize = size / 8;
+    // Couleurs pixel art
+    const grassGreen = '#3A7D21';
+    const dirtBrown = '#7B5A2B';
+    for(let py=0; py<8; py++) {
+      for(let px=0; px<8; px++) {
+        if (py < 2) ctx.fillStyle = grassGreen;
+        else ctx.fillStyle = dirtBrown;
+        ctx.fillRect(x + px*pixelSize, y + py*pixelSize, pixelSize-1, pixelSize-1);
+      }
+    }
+    // Ombre sur bloc
+    ctx.fillStyle = 'rgba(0,0,0,0.25)';
+    ctx.fillRect(x + size*0.6, y + size*0.6, size*0.4, size*0.4);
   }
 
-  generateBtn.addEventListener('click', () => {
-    const game = gameSelect.value;
-    const theme = themeSelect.value;
+  // Dessine texte avec effet 3D / ombre portée
+  function draw3DText(text, x, y, fontSize) {
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = `bold ${fontSize}px 'Luckiest Guy', cursive`;
+    
+    // Ombre portée
+    ctx.shadowColor = '#00fff7cc';
+    ctx.shadowOffsetX = 4;
+    ctx.shadowOffsetY = 4;
+    ctx.shadowBlur = 8;
+    
+    // Texte "3D"
+    ctx.fillStyle = '#00cc99';
+    ctx.fillText(text, x, y);
 
-    if (!img.src) {
-      alert("⚠️ Merci d'uploader une image !");
-      return;
-    }
-    if (!game || !theme) {
-      alert("⚠️ Merci de choisir un jeu et un thème !");
-      return;
-    }
+    // Contour blanc
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#ffffffcc';
+    ctx.strokeText(text, x, y);
 
-    // Dessiner l'image de base
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
+    // Reset ombre
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+  }
 
-    // Si Minecraft, dessiner des blocs pixelisés en fond
-    if (game === 'Minecraft') {
-      drawMinecraftBlocks();
-      drawMinecraftIcon(20, 20, 80);
-    }
-
-    // Dégradé sombre en bas pour texte
+  // Gradient sombre en bas pour lisibilité du texte
+  function drawBottomGradient() {
     const gradHeight = canvas.height * 0.25;
     const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
     gradient.addColorStop(0, 'rgba(0,0,0,0)');
-    gradient.addColorStop(1, 'rgba(0,0,0,0.8)');
+    gradient.addColorStop(1, 'rgba(0,0,0,0.85)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
+  }
 
-    // Texte sur la miniature
-    const mainText = `${game} - ${theme}`;
-    const fontSize = Math.floor(canvas.height * 0.1);
+  // Génération miniature
+  generateBtn.addEventListener('click', () => {
+    if (!imgLoaded) {
+      alert('🚨 Merci d\'uploader une image valide !');
+      return;
+    }
+    if (!gameSelect.value || !themeSelect.value) {
+      alert('🚨 Choisis un jeu et un thème stp.');
+      return;
+    }
 
-    drawTextWithOutline(mainText, canvas.width / 2, canvas.height - gradHeight / 2, fontSize, '#00ffcc', '#000');
+    // Dessine fond pixelisé avec légère animation
+    drawMinecraftBackground();
 
-    // Afficher bouton téléchargement
+    // Dessine image uploadée par-dessus (avec légère transparence)
+    ctx.globalAlpha = 0.85;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1;
+
+    // Cadre lumineux
+    ctx.lineWidth = 20;
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#00fff7');
+    gradient.addColorStop(1, '#00c7b7');
+    ctx.strokeStyle = gradient;
+    ctx.shadowColor = '#00fff7bb';
+    ctx.shadowBlur = 20;
+    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+    ctx.shadowBlur = 0;
+
+    // Icône Minecraft si jeu = Minecraft
+    if (gameSelect.value === 'Minecraft') {
+      drawMinecraftIcon(30, 30, 120);
+    }
+
+    // Texte en bas
+    drawBottomGradient();
+
+    const text = `${gameSelect.value} - ${themeSelect.value}`;
+    draw3DText(text, canvas.width / 2, canvas.height - 80, 90);
+
+    // Bouton téléchargement visible
     downloadBtn.style.display = 'inline-block';
   });
 
+  // Bouton téléchargement
   downloadBtn.addEventListener('click', () => {
-    const dataUrl = canvas.toDataURL('image/png');
-    const a = document.createElement('a');
-    a.href = dataUrl;
-    a.download = 'miniature-style.png';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const link = document.createElement('a');
+    link.download = 'miniature_minecraft.png';
+    link.href = canvas.toDataURL('image/png', 1.0);
+    link.click();
   });
 </script>
 
