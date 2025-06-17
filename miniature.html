@@ -3,294 +3,105 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Générateur Miniature Minecraft Ultra Stylé</title>
+<title>Conseils pour améliorer ta chaîne YouTube</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
   body {
     margin: 0;
-    background: linear-gradient(135deg, #080808, #0f2027);
-    color: #eee;
-    font-family: 'Luckiest Guy', cursive, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    font-family: 'Montserrat', sans-serif;
+    color: #f0f0f0;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px 20px;
   }
 
   h1 {
-    margin-bottom: 15px;
-    text-shadow: 0 0 8px #00fff7aa;
-    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 0 0 8px rgba(255,255,255,0.5);
   }
 
-  #controls {
+  #adviceBox {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 30px 25px;
+    max-width: 600px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    min-height: 160px;
     display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-  }
-
-  select, input[type="file"], button {
-    padding: 12px 20px;
-    border-radius: 30px;
-    border: none;
-    font-size: 1.1rem;
-    outline: none;
-    background: #0ff1c0;
-    color: #022;
-    font-weight: 700;
-    box-shadow: 0 0 12px #0ff1c0aa;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 170px;
-    text-align: center;
-  }
-
-  select:hover, input[type="file"]:hover, button:hover {
-    background: #0ff1c0ee;
-    box-shadow: 0 0 20px #0ff1c0ff;
-  }
-
-  canvas {
-    border-radius: 30px;
-    max-width: 100%;
-    box-shadow:
-      0 0 15px #00ffe0aa,
-      inset 0 0 40px #00ffe0cc;
-    background: #121212;
-  }
-
-  #downloadBtn {
-    margin-top: 15px;
-    padding: 14px 50px;
     font-size: 1.3rem;
-    border-radius: 40px;
-    background: linear-gradient(45deg, #00fff7, #00c7b7);
-    border: none;
-    color: #022;
-    font-weight: 700;
-    box-shadow: 0 0 20px #00fff7bb;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    display: none;
+    text-align: center;
+    line-height: 1.5;
+    user-select: none;
   }
 
-  #downloadBtn:hover {
-    background: linear-gradient(45deg, #00c7b7, #00fff7);
+  #showAdviceBtn {
+    margin-top: 40px;
+    padding: 14px 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #00eaff, #0077ff);
+    border: none;
+    border-radius: 40px;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 20px #00eaffaa;
+    transition: background 0.3s ease;
+  }
+
+  #showAdviceBtn:hover {
+    background: linear-gradient(45deg, #0077ff, #00eaff);
+  }
+
+  footer {
+    margin-top: auto;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #ccc;
   }
 </style>
 </head>
 <body>
 
-<h1>Miniature Minecraft Ultra Stylée</h1>
+<h1>Boost ta chaîne YouTube ! 🚀</h1>
 
-<div id="controls">
-  <input type="file" id="fileInput" accept="image/*" />
-  <select id="game">
-    <option value="">Choisis un jeu</option>
-    <option value="Minecraft">Minecraft</option>
-    <option value="Fortnite">Fortnite</option>
-    <option value="Roblox">Roblox</option>
-  </select>
-  <select id="theme">
-    <option value="">Choisis un thème</option>
-    <option value="Défi">Défi</option>
-    <option value="Troll">Troll</option>
-    <option value="Secrets">Secrets</option>
-    <option value="Hardcore">Hardcore</option>
-    <option value="Mods">Mods</option>
-  </select>
-  <button id="generateBtn">Générer</button>
-</div>
+<div id="adviceBox">Clique sur le bouton pour recevoir un conseil utile.</div>
 
-<canvas id="canvas" width="1280" height="720"></canvas>
+<button id="showAdviceBtn">Afficher un conseil</button>
 
-<button id="downloadBtn">Télécharger la miniature</button>
+<footer>Made with ❤️ par toi</footer>
 
 <script>
-  const fileInput = document.getElementById('fileInput');
-  const gameSelect = document.getElementById('game');
-  const themeSelect = document.getElementById('theme');
-  const generateBtn = document.getElementById('generateBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
+  const advices = [
+    "Publie régulièrement pour fidéliser ton audience.",
+    "Utilise des miniatures personnalisées attirantes et claires.",
+    "Optimise tes titres avec des mots-clés recherchés.",
+    "Ajoute des descriptions complètes et des tags pertinents.",
+    "Interagis avec ta communauté en répondant aux commentaires.",
+    "Crée des playlists pour organiser tes vidéos par thème.",
+    "Analyse les statistiques YouTube pour ajuster ta stratégie.",
+    "Fais des collaborations avec d'autres créateurs.",
+    "Soigne la qualité audio et vidéo pour retenir les spectateurs.",
+    "Promets et livre du contenu à forte valeur ajoutée.",
+    "Utilise les écrans de fin pour encourager les abonnements.",
+    "Travaille le SEO de tes vidéos pour apparaître dans les recherches.",
+    "Partage tes vidéos sur les réseaux sociaux.",
+    "Utilise des appels à l'action (like, abonne-toi, partage).",
+    "Teste différents formats (vlogs, tutoriels, reviews).",
+  ];
 
-  let img = new Image();
-  let imgLoaded = false;
+  const adviceBox = document.getElementById('adviceBox');
+  const btn = document.getElementById('showAdviceBtn');
 
-  // Chargement de l'image uploadée
-  fileInput.addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(evt) {
-      img.src = evt.target.result;
-      img.onload = () => {
-        imgLoaded = true;
-        // Adapter canvas à l'image (max 1280x720)
-        const ratio = img.width / img.height;
-        if (img.width > 1280 || img.height > 720) {
-          if (ratio > 1280/720) {
-            canvas.width = 1280;
-            canvas.height = 1280 / ratio;
-          } else {
-            canvas.height = 720;
-            canvas.width = 720 * ratio;
-          }
-        } else {
-          canvas.width = img.width;
-          canvas.height = img.height;
-        }
-        drawBaseImage();
-        downloadBtn.style.display = 'none';
-      };
-    };
-    reader.readAsDataURL(file);
-  });
-
-  // Fonction pour dessiner l’image de base et le cadre lumineux
-  function drawBaseImage() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    // Cadre lumineux bleu/cyan
-    ctx.lineWidth = 20;
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#00fff7');
-    gradient.addColorStop(1, '#00c7b7');
-    ctx.strokeStyle = gradient;
-    ctx.shadowColor = '#00fff7bb';
-    ctx.shadowBlur = 20;
-    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-    ctx.shadowBlur = 0;
-  }
-
-  // Dessine un fond pixelisé style Minecraft
-  function drawMinecraftBackground() {
-    const blockSize = 40;
-    const cols = Math.ceil(canvas.width / blockSize);
-    const rows = Math.ceil(canvas.height / blockSize);
-    const dirtColors = ['#6B4C1B', '#7A5B28', '#5D3E0F', '#7B5A2B'];
-    const grassColors = ['#3A7D21', '#2F6B1B', '#4BA329'];
-    for(let y=0; y<rows; y++) {
-      for(let x=0; x<cols; x++) {
-        let color = dirtColors[Math.floor(Math.random() * dirtColors.length)];
-        if (y === 0) color = grassColors[Math.floor(Math.random() * grassColors.length)];
-        ctx.fillStyle = color;
-        ctx.fillRect(x * blockSize, y * blockSize, blockSize - 2, blockSize - 2);
-      }
-    }
-  }
-
-  // Dessine icône Minecraft pixelisée en haut gauche
-  function drawMinecraftIcon(x, y, size) {
-    const pixelSize = size / 8;
-    // Couleurs pixel art
-    const grassGreen = '#3A7D21';
-    const dirtBrown = '#7B5A2B';
-    for(let py=0; py<8; py++) {
-      for(let px=0; px<8; px++) {
-        if (py < 2) ctx.fillStyle = grassGreen;
-        else ctx.fillStyle = dirtBrown;
-        ctx.fillRect(x + px*pixelSize, y + py*pixelSize, pixelSize-1, pixelSize-1);
-      }
-    }
-    // Ombre sur bloc
-    ctx.fillStyle = 'rgba(0,0,0,0.25)';
-    ctx.fillRect(x + size*0.6, y + size*0.6, size*0.4, size*0.4);
-  }
-
-  // Dessine texte avec effet 3D / ombre portée
-  function draw3DText(text, x, y, fontSize) {
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = `bold ${fontSize}px 'Luckiest Guy', cursive`;
-    
-    // Ombre portée
-    ctx.shadowColor = '#00fff7cc';
-    ctx.shadowOffsetX = 4;
-    ctx.shadowOffsetY = 4;
-    ctx.shadowBlur = 8;
-    
-    // Texte "3D"
-    ctx.fillStyle = '#00cc99';
-    ctx.fillText(text, x, y);
-
-    // Contour blanc
-    ctx.lineWidth = 3;
-    ctx.strokeStyle = '#ffffffcc';
-    ctx.strokeText(text, x, y);
-
-    // Reset ombre
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-  }
-
-  // Gradient sombre en bas pour lisibilité du texte
-  function drawBottomGradient() {
-    const gradHeight = canvas.height * 0.25;
-    const gradient = ctx.createLinearGradient(0, canvas.height - gradHeight, 0, canvas.height);
-    gradient.addColorStop(0, 'rgba(0,0,0,0)');
-    gradient.addColorStop(1, 'rgba(0,0,0,0.85)');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, canvas.height - gradHeight, canvas.width, gradHeight);
-  }
-
-  // Génération miniature
-  generateBtn.addEventListener('click', () => {
-    if (!imgLoaded) {
-      alert('🚨 Merci d\'uploader une image valide !');
-      return;
-    }
-    if (!gameSelect.value || !themeSelect.value) {
-      alert('🚨 Choisis un jeu et un thème stp.');
-      return;
-    }
-
-    // Dessine fond pixelisé avec légère animation
-    drawMinecraftBackground();
-
-    // Dessine image uploadée par-dessus (avec légère transparence)
-    ctx.globalAlpha = 0.85;
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    ctx.globalAlpha = 1;
-
-    // Cadre lumineux
-    ctx.lineWidth = 20;
-    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#00fff7');
-    gradient.addColorStop(1, '#00c7b7');
-    ctx.strokeStyle = gradient;
-    ctx.shadowColor = '#00fff7bb';
-    ctx.shadowBlur = 20;
-    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
-    ctx.shadowBlur = 0;
-
-    // Icône Minecraft si jeu = Minecraft
-    if (gameSelect.value === 'Minecraft') {
-      drawMinecraftIcon(30, 30, 120);
-    }
-
-    // Texte en bas
-    drawBottomGradient();
-
-    const text = `${gameSelect.value} - ${themeSelect.value}`;
-    draw3DText(text, canvas.width / 2, canvas.height - 80, 90);
-
-    // Bouton téléchargement visible
-    downloadBtn.style.display = 'inline-block';
-  });
-
-  // Bouton téléchargement
-  downloadBtn.addEventListener('click', () => {
-    const link = document.createElement('a');
-    link.download = 'miniature_minecraft.png';
-    link.href = canvas.toDataURL('image/png', 1.0);
-    link.click();
+  btn.addEventListener('click', () => {
+    const index = Math.floor(Math.random() * advices.length);
+    adviceBox.textContent = advices[index];
   });
 </script>
 
